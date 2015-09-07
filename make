@@ -35,7 +35,7 @@ if [ ! -f images/pause.tgz ];then
     echo "Pulling pause docker image...."
     docker pull gcr.io/google_containers/pause:0.8.0
     echo "Saving pause docker image...."
-    docker save pull gcr.io/google_containers/pause > images/pause.tgz
+    docker save gcr.io/google_containers/pause > images/pause.tgz
 fi
 if [ ! -f images/cadvisor.tgz ];then 
     echo "Pulling cadvisor docker image...."
