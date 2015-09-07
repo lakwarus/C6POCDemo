@@ -53,8 +53,6 @@ if [ ! -f images/tomcat.tgz ];then
     docker save tomcat > images/tomcat.tgz
 fi
 
-
-
 # Building C6Demo java app
 if [ ! -d demo-app ];then
     echo "Clone source code from https://github.com/chirangaalwis/Java-Kubernetes-Web-Artifact-Handler.git"
