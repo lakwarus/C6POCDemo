@@ -8,7 +8,7 @@
 Vagrant.configure(2) do |config|
 
   # boot2docker VM
-  config.vm.box = "yungsang/boot2docker"
+  config.vm.box = "c6"
   # Install stuff inside VM by running bootstrap.sh
   config.vm.provision :shell, path: "bootstrap.sh"
 

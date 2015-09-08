@@ -45,6 +45,14 @@ if [ ! -f images/tomcat.tgz ];then
     docker save tomcat > images/tomcat.tgz
 fi
 
+# Get boot2docker virtualbox for mac support
+if [ ! -f images/boot2docker-virtualbox.box ];then
+    echo "Download boot2docker virtualbox for mac support...."
+    cd images
+    wget https://github.com/YungSang/boot2docker-vagrant-box/releases/download/yungsang%2Fv1.4.1/boot2docker-virtualbox.box
+    cd $HOME
+fi
+
 # Building C6Demo java app
 if [ ! -d demo-app ];then
     echo "Clone source code from https://github.com/chirangaalwis/Java-Kubernetes-Web-Artifact-Handler.git"

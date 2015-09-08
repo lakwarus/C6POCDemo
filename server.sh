@@ -80,8 +80,7 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
     # setting up Kubernetes
     echo "Setting up Kubernetes v1.0.1"
     # Add boot2docker VM box
-    # vagrant box add yungsang/boot2docker 
-
+    vagrant box add --force --name c6 images/boot2docker-virtualbox.box
     vagrant up
     ssh-keygen -f ~/.ssh/known_hosts -R 192.168.33.10
     ssh -i ~/.vagrant.d/insecure_private_key -o StrictHostKeyChecking=no docker@192.168.33.10 -N -L8080:localhost:8080 >/dev/null 2>&1 & 
