@@ -30,7 +30,11 @@ if [[ "$OSTYPE" == "linux-gnu" ]]; then
 
 	case $CMD in
     start)
-    	# Load Kubernetes docker images from the disk
+	if [ -z "$JAVA_HOME" ]; then
+  	    echo "You must set the JAVA_HOME variable before running POCDemo."
+      	    exit 1
+	fi
+	# Load Kubernetes docker images from the disk
 	echo "Loading docker images....."
        	[ -f images/etcd.tgz ] && docker load < images/etcd.tgz
         [ -f images/hyperkube.tgz ] && docker load < images/hyperkube.tgz
@@ -55,7 +59,7 @@ if [[ "$OSTYPE" == "linux-gnu" ]]; then
 	docker run   --volume=/:/rootfs:ro   --volume=/var/run:/var/run:rw   --volume=/sys:/sys:ro   --volume=/var/lib/docker/:/var/lib/docker:ro   --publish=4194:8080   --detach=true   --name=cadvisor   google/cadvisor:latest
 	# run Carbon MT POC demo
 	echo "Starting Carbon MT POC Demo..."
-	docker run -rm -it /opt/java/bin/java -cp uber-java-web-artifact-handler-1.0-SNAPSHOT.jar org.wso2.carbon.Executor
+	$JAVA_HOME/bin/java -cp uber-java-web-artifact-handler-1.0-SNAPSHOT.jar org.wso2.carbon.Executor
 	;;
     stop)
 

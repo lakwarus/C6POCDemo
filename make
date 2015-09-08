@@ -3,14 +3,6 @@
 PRE_REQ=0
 HOME=`pwd`
 # Checking prerequisites for the build
-echo "Checking prerequisites for the build...."
-if [ ! -f tools/jdk* ];then
-    echo "Missing JDK!! Copy Java 7 JDK tgz file into the tools folder..."
-    PRE_REQ=1
-else
-    JDK=`ls tools/jdk*`
-    echo "Found $JDK"
-fi
 command -v docker >/dev/null 2>&1 || { echo >&2 "Missing Docker!!! Build required docker install in the host. Try 'curl -sSL https://get.docker.com/ | sh' "; $PRE_REQ=1; }
 
 if [ ! $PRE_REQ -eq 0 ];then
@@ -66,25 +58,15 @@ fi
 echo "Building POC Demo app..."
 rm -fr target
 mvn clean install
-
-# Creating docker image for the demo-app
-# Creating Dockerfile
 cd $HOME
-echo "from ubuntu:14.04" > Dockerfile
-echo "ADD $JDK /opt/" >> Dockerfile
-echo "WORKDIR /opt" >> Dockerfile
-echo "RUN ln -s jdk1* java" >> Dockerfile
-echo "ENV JAVA_HOME /opt/java" >> Dockerfile
-echo "COPY demo-app/target/java-web-artifact-handler-1.0-SNAPSHOT.jar /opt/" >> Dockerfile
-echo "COPY demo-app/target/uber-java-web-artifact-handler-1.0-SNAPSHOT.jar /opt/" >> Dockerfile
-echo 'CMD ["bash"]' >> Dockerfile
-docker build -t c6pocdemo .
-docker save c6pocdemo > images/c6pocdemo.tgz
-rm Dockerfile
+[ -d bin ] && rm -fr bin
+mkdir bin
+cp demo-app/target/java-web-artifact-handler-1.0-SNAPSHOT.jar bin/
+cp demo-app/target/uber-java-web-artifact-handler-1.0-SNAPSHOT.jar bin/
 
 # Creating single pack
 [ -f c6pocdemo.tgz ] && rm c6pocdemo.tgz
-tar zcvf c6pocdemo.tgz images/ server.sh
+tar zcvf c6pocdemo.tgz images/ server.sh bin/
 
 
 
