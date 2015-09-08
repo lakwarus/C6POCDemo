@@ -40,7 +40,6 @@ if [[ "$OSTYPE" == "linux-gnu" ]]; then
         [ -f images/hyperkube.tgz ] && docker load < images/hyperkube.tgz
         [ -f images/pause.tgz ] && docker load < images/pause.tgz
         [ -f images/cadvisor.tgz ] && docker load < images/cadvisor.tgz
-        [ -f images/c6pocdemo.tgz ] && docker load < images/c6pocdemo.tgz
         [ -f images/tomcat.tgz ] && docker load < images/tomcat.tgz
 	
 
