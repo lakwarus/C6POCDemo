@@ -66,7 +66,7 @@ cp demo-app/target/uber-java-web-artifact-handler-1.0-SNAPSHOT.jar bin/
 
 # Creating single pack
 [ -f c6pocdemo.tgz ] && rm c6pocdemo.tgz
-tar zcvf c6pocdemo.tgz images/ server.sh bin/
+tar zcvf c6pocdemo.tgz images/ server.sh bin/ Vagrantfile bootstrap.sh 
 
 
 
