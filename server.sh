@@ -1,4 +1,9 @@
 #!/bin/bash
+
+if [ -z "$JAVA_HOME" ]; then
+    echo "You must set the JAVA_HOME variable before running POCDemo."
+    exit 1
+fi
 	
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
     # Linux machine
@@ -28,12 +33,12 @@ if [[ "$OSTYPE" == "linux-gnu" ]]; then
     	fi
 	done
 
+	command -v docker >/dev/null 2>&1 || { echo >&2 "Missing Docker!!! Build required docker install in the host. Try 'curl -sSL https://get.docker.com/ | sh' "; exit 1; }
+	
 	case $CMD in
     start)
-	if [ -z "$JAVA_HOME" ]; then
-  	    echo "You must set the JAVA_HOME variable before running POCDemo."
-      	    exit 1
-	fi
+	
+	
 	# Load Kubernetes docker images from the disk
 	echo "Loading docker images....."
        	[ -f images/etcd.tgz ] && docker load < images/etcd.tgz
@@ -59,7 +64,9 @@ if [[ "$OSTYPE" == "linux-gnu" ]]; then
 	docker run   --volume=/:/rootfs:ro   --volume=/var/run:/var/run:rw   --volume=/sys:/sys:ro   --volume=/var/lib/docker/:/var/lib/docker:ro   --publish=4194:8080   --detach=true   --name=cadvisor   google/cadvisor:latest
 	# run Carbon MT POC demo
 	echo "Starting Carbon MT POC Demo..."
-	$JAVA_HOME/bin/java -cp uber-java-web-artifact-handler-1.0-SNAPSHOT.jar org.wso2.carbon.Executor
+	[ ! -d java-web-artifact-handler-1.0-SNAPSHOT ] && unzip java-web-artifact-handler-1.0-SNAPSHOT.zip
+	cd java-web-artifact-handler-1.0-SNAPSHOT/bin 
+	./web-app-handler-extension.sh
 	;;
     stop)
 
@@ -86,9 +93,9 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
     ssh -i ~/.vagrant.d/insecure_private_key -o StrictHostKeyChecking=no docker@192.168.33.10 -N -L8080:localhost:8080 >/dev/null 2>&1 & 
     # run Carbon MT POC demo
     echo "Starting Carbon MT POC Demo..."
-    cd bin
-    $JAVA_HOME/bin/java -cp uber-java-web-artifact-handler-1.0-SNAPSHOT.jar org.wso2.carbon.Executor
-    
+    [ ! -d java-web-artifact-handler-1.0-SNAPSHOT ] && unzip java-web-artifact-handler-1.0-SNAPSHOT.zip
+    cd java-web-artifact-handler-1.0-SNAPSHOT/bin
+    ./web-app-handler-extension.sh 
 
 elif [[ "$OSTYPE" == "cygwin" ]]; then
     # POSIX compatibility layer and Linux environment emulation for Windows

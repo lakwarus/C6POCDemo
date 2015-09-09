@@ -67,14 +67,11 @@ echo "Building POC Demo app..."
 rm -fr target
 mvn clean install
 cd $HOME
-[ -d bin ] && rm -fr bin
-mkdir bin
-cp demo-app/target/java-web-artifact-handler-1.0-SNAPSHOT.jar bin/
-cp demo-app/target/uber-java-web-artifact-handler-1.0-SNAPSHOT.jar bin/
+cp -f demo-app/target/java-web-artifact-handler-1.0-SNAPSHOT.zip .
 
 # Creating single pack
 [ -f c6pocdemo.tgz ] && rm c6pocdemo.tgz
-tar zcvf c6pocdemo.tgz images/ server.sh bin/ Vagrantfile bootstrap.sh 
+tar zcvf c6pocdemo.tgz images/ server.sh  Vagrantfile bootstrap.sh java-web-artifact-handler-1.0-SNAPSHOT.zip 
 
 
 
